@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>E-Vote Admin | Dark Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-vote-yea"></i>
+                <span>Admin Portal<span class="logo-highlight"></span></span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar" id="sidebarAvatar">
+                <span>AD</span>
+            </div>
+            <div class="user-info">
+                <div class="user-name" id="sidebarName">Admin</div>
+                <div class="user-role">Administrator</div>
+            </div>
+            <div class="user-status"></div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-item active" data-page="dashboard">
+                <i class="fas fa-chart-pie"></i>
+                <span>Home</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" data-page="elections">
+                <i class="fas fa-calendar-check"></i>
+                <span>Elections</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" data-page="candidates">
+                <i class="fas fa-users"></i>
+                <span>Candidates</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" data-page="voters">
+                <i class="fas fa-user-check"></i>
+                <span>Voters</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" data-page="results">
+                <i class="fas fa-poll"></i>
+                <span>Results</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" data-page="profile">
+                <i class="fas fa-id-card"></i>
+                <span>Profile</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" data-page="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+                <div class="nav-indicator"></div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="page-title-wrapper">
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                <div class="page-breadcrumb" id="pageBreadcrumb">Home / Dashboard</div>
+            </div>
+
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search anything..." id="searchInput">
+                    <div class="search-shortcut">⌘K</div>
+                </div>
+
+                <div class="notifications">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationBadge">5</span>
+                    </button>
+                </div>
+
+                <div class="mobile-user" id="mobileUser">
+                    <div class="user-avatar-small" id="mobileAvatar">AD</div>
+                </div>
+
+                <div class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="content" id="content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboardPage">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <div class="welcome-content">
+                        <h2>Welcome back <span id="welcomeName">Admin</span>! 👋</h2>
+                        <p>Leading the future of fair and secure digital elections.</p>
+                    </div>
+                    <div class="welcome-actions">
+                        <button class="btn-primary" onclick="openElectionModal()">
+                            <i class="fas fa-plus"></i> New Election
+                        </button>
+                        <button class="btn-secondary" onclick="exportReport()">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card" data-color="primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-label">Total Elections</div>
+                            <div class="stat-value" id="totalElections">0</div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i> <span>12.5%</span>
+                            </div>
+                        </div>
+                        <div class="stat-chart" id="electionChart"></div>
+                    </div>
+
+                    <div class="stat-card" data-color="success">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-label">Total Candidates</div>
+                            <div class="stat-value" id="totalCandidates">0</div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i> <span>8.2%</span>
+                            </div>
+                        </div>
+                        <div class="stat-chart" id="candidateChart"></div>
+                    </div>
+
+                    <div class="stat-card" data-color="warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-label">Registered Voters</div>
+                            <div class="stat-value" id="totalVoters">0</div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i> <span>15.3%</span>
+                            </div>
+                        </div>
+                        <div class="stat-chart" id="voterChart"></div>
+                    </div>
+
+                    <div class="stat-card" data-color="info">
+                        <div class="stat-icon">
+                            <i class="fas fa-vote-yea"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-label">Total Votes</div>
+                            <div class="stat-value" id="totalVotes">0</div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i> <span>22.1%</span>
+                            </div>
+                        </div>
+                        <div class="stat-chart" id="voteChart"></div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <!-- Voter Participation Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3><i class="fas fa-chart-pie"></i> Voter Participation</h3>
+                                <p class="chart-subtitle">Overall turnout statistics</p>
+                            </div>
+                            <button class="btn-icon-more" onclick="showParticipationDetails()">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                        <div class="chart-body">
+                            <div class="participation-stats">
+                                <div class="participation-circle">
+                                    <div class="circle-progress" id="participationProgress"></div>
+                                    <div class="circle-inner">
+                                        <span id="participationPercentage">0%</span>
+                                        <small>Turnout</small>
+                                    </div>
+                                </div>
+                                <div class="participation-labels">
+                                    <div class="label-item">
+                                        <span class="dot voted"></span>
+                                        <span>Voted: <strong id="votedCount">0</strong></span>
+                                    </div>
+                                    <div class="label-item">
+                                        <span class="dot not-voted"></span>
+                                        <span>Not Voted: <strong id="notVotedCount">0</strong></span>
+                                    </div>
+                                    <div class="label-item">
+                                        <span class="dot total"></span>
+                                        <span>Total Voters: <strong id="totalVotersCount">0</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Elections -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3><i class="fas fa-fire"></i> Active Elections</h3>
+                                <p class="chart-subtitle">Currently running elections</p>
+                            </div>
+                            <a href="#" onclick="navigateTo('elections')" class="view-all">
+                                View All <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="chart-body" id="activeElectionsList">
+                            <!-- Active elections will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity and Upcoming Elections -->
+                <div class="activity-grid">
+                    <!-- Recent Activity -->
+                    <div class="activity-card">
+                        <div class="activity-card-header">
+                            <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                            <button class="btn-refresh" id="refreshActivityBtn" onclick="refreshActivity()">
+                                <i class="fas fa-sync-alt" id="refreshIcon"></i>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div class="activity-list" id="recentActivityList">
+                            <!-- Recent activities will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Elections -->
+                    <div class="activity-card">
+                        <div class="activity-card-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Upcoming Elections</h3>
+                            <button class="btn-view-all" onclick="navigateTo('elections')">
+                                <span>View All</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="upcoming-list" id="upcomingElectionsList">
+                            <!-- Upcoming elections will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elections Page -->
+            <div class="page" id="electionsPage">
+                <div class="page-header">
+                    <div>
+                        <h2><i class="fas fa-calendar-check"></i> Manage Elections</h2>
+                        <p class="page-description">Create and manage voting events</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="exportElections()">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="btn-primary" onclick="openElectionModal()">
+                            <i class="fas fa-plus"></i> Add Election
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-filters">
+                    <div class="filter-group">
+                        <i class="fas fa-filter"></i>
+                        <select class="filter-select" id="electionStatusFilter">
+                            <option value="all">All Status</option>
+                            <option value="Open">Open</option>
+                            <option value="Upcoming">Upcoming</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fas fa-calendar"></i>
+                        <input type="text" class="filter-input" placeholder="Date range" id="electionDateFilter">
+                    </div>
+                    <div class="filter-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search elections..." id="electionSearch">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table" id="electionsTable">
+                        <thead>
+                            <tr>
+                                <th>Election Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Areas</th>
+                                <th>Seats</th>
+                                <th>Status</th>
+                                <th>Progress</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="electionsTableBody">
+                            <!-- Elections data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-pagination">
+                    <div class="pagination-info">
+                        Showing <span id="electionStart">1</span> to <span id="electionEnd">10</span> of <span
+                            id="electionTotal">0</span> elections
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" onclick="prevElectionPage()" id="prevElectionPage">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="pagination-current" id="currentElectionPage">1</span>
+                        <button class="pagination-btn" onclick="nextElectionPage()" id="nextElectionPage">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidates Page -->
+            <div class="page" id="candidatesPage">
+                <div class="page-header">
+                    <div>
+                        <h2><i class="fas fa-users"></i> Manage Candidates</h2>
+                        <p class="page-description">Add and manage election candidates</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="exportCandidatesPDF()">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="btn-secondary" onclick="bulkUploadCandidates()">
+                            <i class="fas fa-upload"></i> Bulk Upload
+                        </button>
+                        <button class="btn-primary" onclick="openCandidateModal()">
+                            <i class="fas fa-plus"></i> Add Candidate
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-filters">
+                    <div class="filter-group">
+                        <i class="fas fa-filter"></i>
+                        <select class="filter-select" id="candidateElectionFilter">
+                            <option value="all">All Elections</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fas fa-flag"></i>
+                        <select class="filter-select" id="candidatePartyFilter">
+                            <option value="all">All Parties</option>
+                        </select>
+                    </div>
+                    <div class="filter-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search candidates..." id="candidateSearch">
+                    </div>
+                </div>
+
+                <div class="candidates-grid" id="candidatesGrid">
+                    <!-- Candidates will be loaded here as cards -->
+                </div>
+
+                <div class="table-pagination">
+                    <div class="pagination-info">
+                        Showing <span id="candidateStart">1</span> to <span id="candidateEnd">12</span> of <span
+                            id="candidateTotal">0</span> candidates
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" onclick="prevCandidatePage()" id="prevCandidatePage">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="pagination-current" id="currentCandidatePage">1</span>
+                        <button class="pagination-btn" onclick="nextCandidatePage()" id="nextCandidatePage">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voters Page -->
+            <div class="page" id="votersPage">
+                <div class="page-header">
+                    <div>
+                        <h2><i class="fas fa-user-check"></i> Manage Voters</h2>
+                        <p class="page-description">View and manage registered voters</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="exportVotersPDF()">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="btn-secondary" onclick="sendBulkEmail()">
+                            <i class="fas fa-envelope"></i> Email All
+                        </button>
+                        <button class="btn-secondary" onclick="bulkUploadVoters()">
+                            <i class="fas fa-upload"></i> Bulk Upload
+                        </button>
+                        <button class="btn-primary" onclick="openVoterModal()">
+                            <i class="fas fa-plus"></i> Add Voter
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-filters">
+                    <div class="filter-group">
+                        <i class="fas fa-filter"></i>
+                        <select class="filter-select" id="voterStatusFilter">
+                            <option value="all">All Status</option>
+                            <option value="voted">Voted</option>
+                            <option value="not-voted">Not Voted</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <i class="fas fa-calendar"></i>
+                        <input type="text" class="filter-input" placeholder="Registration date" id="voterDateFilter">
+                    </div>
+                    <div class="filter-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search voters..." id="voterSearch">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllVoters"></th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Voter ID</th>
+                                <th>Status</th>
+                                <th>Voted In</th>
+                                <th>Registered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="votersTableBody">
+                            <!-- Voters data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-pagination">
+                    <div class="pagination-info">
+                        Showing <span id="voterStart">1</span> to <span id="voterEnd">10</span> of <span
+                            id="voterTotal">0</span> voters
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" onclick="prevVoterPage()" id="prevVoterPage">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="pagination-current" id="currentVoterPage">1</span>
+                        <button class="pagination-btn" onclick="nextVoterPage()" id="nextVoterPage">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Page -->
+            <div class="page" id="resultsPage">
+                <div class="page-header">
+                    <div>
+                        <h2><i class="fas fa-poll"></i> Election Results</h2>
+                        <p class="page-description">View and analyze voting results</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="printResults()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button class="btn-primary" onclick="exportResults()">
+                            <i class="fas fa-file-pdf"></i> Export Report PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="results-header">
+                    <div class="results-election-selector">
+                        <select class="form-input" id="resultElectionSelect">
+                            <option value="">Select Election</option>
+                        </select>
+                    </div>
+                    <div class="results-summary" id="resultsSummary">
+                        <!-- Results summary will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Results will be loaded here -->
+                </div>
+
+                <div class="results-charts" id="resultsCharts">
+                    <!-- Additional charts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div class="page" id="profilePage">
+                <div class="profile-header">
+                    <div class="profile-avatar-wrapper">
+                        <div class="profile-avatar" id="profileAvatarContainer">
+                            <span id="profileAvatar">AD</span>
+                        </div>
+                        <button class="avatar-edit-btn" onclick="changeAvatar()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="profile-info">
+                        <h2 id="profileName">Admin User</h2>
+                        <p><i class="fas fa-envelope"></i> <span id="profileEmail"><a href="/cdn-cgi/l/email-protection"
+                                    class="__cf_email__"
+                                    data-cfemail="c6a7a2abafa886a3b0a9b2afa8a1e8a5a9ab">[email&#160;protected]</a></span>
+                        </p>
+                        <p><i class="fas fa-phone"></i> <span id="profilePhone">+91 9876543210</span></p>
+                        <div class="profile-badges">
+                            <span class="profile-badge active">Active</span>
+                            <span class="profile-badge role">Administrator</span>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <span class="stat-value" id="profileLoginCount">156</span>
+                            <span class="stat-label">Logins</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-value" id="profileActions">2.3k</span>
+                            <span class="stat-label">Actions</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-value" id="profileDays">90</span>
+                            <span class="stat-label">Days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-tabs">
+                    <button class="tab-btn active" data-tab="personal">
+                        <i class="fas fa-user"></i> Personal Info
+                    </button>
+                    <button class="tab-btn" data-tab="password">
+                        <i class="fas fa-lock"></i> Change Password
+                    </button>
+                    <button class="tab-btn" data-tab="security">
+                        <i class="fas fa-shield-alt"></i> Security
+                    </button>
+                    <button class="tab-btn" data-tab="activity">
+                        <i class="fas fa-history"></i> Activity Log
+                    </button>
+                </div>
+
+                <!-- Personal Info Tab -->
+                <div class="tab-content active" id="personalTab">
+                    <div class="form-container">
+                        <div class="form-section">
+                            <h4>Basic Information</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" class="form-input" id="profileFullName" value="Admin User">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" class="form-input" id="profileEmailInput"
+                                        value="admin@evoting.com">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" class="form-input" id="profilePhoneInput" value="+91 9876543210">
+                                </div>
+                                <div class="form-group">
+                                    <label>Department</label>
+                                    <select class="form-input" id="profileDepartment">
+                                        <option value="admin">Administration</option>
+                                        <option value="technical">Technical</option>
+                                        <option value="support">Support</option>
+                                        <option value="supervisor">Supervisor</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h4>Additional Information</h4>
+                            <div class="form-group">
+                                <label>Bio</label>
+                                <textarea class="form-input" id="profileBio"
+                                    rows="3">System administrator with over 5 years of experience managing voting systems.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" class="form-input" id="profileLocation" value="New York, USA">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn-secondary" onclick="resetPersonalInfo()">Reset</button>
+                            <button class="btn-primary" onclick="updatePersonalInfo()">
+                                <i class="fas fa-save"></i> Update Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Tab -->
+                <div class="tab-content" id="passwordTab">
+                    <div class="form-container">
+                        <div class="form-section">
+                            <h4>Change Password</h4>
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" class="form-input" id="currentPassword"
+                                    placeholder="Enter current password">
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" class="form-input" id="newPassword"
+                                    placeholder="Enter new password">
+                                <div class="password-strength">
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="passwordStrengthBar"></div>
+                                    </div>
+                                    <span class="strength-text" id="passwordStrengthText">Weak</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" class="form-input" id="confirmPassword"
+                                    placeholder="Confirm new password">
+                            </div>
+
+                            <div class="password-requirements">
+                                <p>Password must contain:</p>
+                                <ul>
+                                    <li id="reqLength"><i class="fas fa-circle"></i> At least 8 characters</li>
+                                    <li id="reqUppercase"><i class="fas fa-circle"></i> One uppercase letter</li>
+                                    <li id="reqLowercase"><i class="fas fa-circle"></i> One lowercase letter</li>
+                                    <li id="reqNumber"><i class="fas fa-circle"></i> One number</li>
+                                    <li id="reqSpecial"><i class="fas fa-circle"></i> One special character</li>
+                                </ul>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn-secondary" onclick="resetPasswordForm()">Clear</button>
+                                <button class="btn-primary" id="changePasswordBtn" onclick="changePassword()" disabled>
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Tab -->
+                <div class="tab-content" id="securityTab">
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Two-Factor Authentication</h4>
+                                <p>Add an extra layer of security to your account</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="twoFactorToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Login Notifications</h4>
+                                <p>Get email alerts for new login attempts</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="loginNotifications" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Session Timeout</h4>
+                                <p>Automatically logout after inactivity</p>
+                            </div>
+                            <select class="form-input small" id="sessionTimeout">
+                                <option value="15">15 minutes</option>
+                                <option value="30" selected>30 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="120">2 hours</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Activity Logs</h4>
+                                <p>Keep detailed logs of all admin actions</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="activityLogs" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>IP Whitelisting</h4>
+                                <p>Restrict access to specific IP addresses</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="ipWhitelist">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="saveSecuritySettings()">
+                                <i class="fas fa-save"></i> Save Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Log Tab -->
+                <div class="tab-content" id="activityTab">
+                    <div class="activity-log-container">
+                        <div class="activity-log-filters">
+                            <select class="filter-select" id="activityTypeFilter">
+                                <option value="all">All Activities</option>
+                                <option value="login">Logins</option>
+                                <option value="election">Elections</option>
+                                <option value="candidate">Candidates</option>
+                                <option value="voter">Voters</option>
+                                <option value="setting">Settings</option>
+                            </select>
+                            <input type="text" class="filter-input" placeholder="Date range" id="activityDateFilter">
+                        </div>
+                        <div class="activity-log-list" id="activityLogList">
+                            <!-- Activity logs will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page" id="settingsPage">
+                <div class="settings-container">
+                    <div class="settings-sidebar">
+                        <div class="settings-nav">
+                            <button class="settings-nav-item active" data-setting="general">
+                                <i class="fas fa-cog"></i> General
+                            </button>
+                            <button class="settings-nav-item" data-setting="system">
+                                <i class="fas fa-server"></i> System
+                            </button>
+                            <button class="settings-nav-item" data-setting="email">
+                                <i class="fas fa-envelope"></i> Email
+                            </button>
+                            <button class="settings-nav-item" data-setting="security">
+                                <i class="fas fa-shield-alt"></i> Security
+                            </button>
+                            <button class="settings-nav-item" data-setting="backup">
+                                <i class="fas fa-database"></i> Backup
+                            </button>
+                            <button class="settings-nav-item" data-setting="api">
+                                <i class="fas fa-code"></i> API
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-content">
+                        <!-- General Settings -->
+                        <div class="settings-panel active" id="generalSettings">
+                            <h3>General Settings</h3>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>System Name</h4>
+                                    <p>The name of your voting system</p>
+                                </div>
+                                <input type="text" class="form-input" id="systemName" value="Online E-Voting System">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>System URL</h4>
+                                    <p>The public URL of your voting system</p>
+                                </div>
+                                <input type="text" class="form-input" id="systemUrl" value="https://evote.example.com">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Default Language</h4>
+                                    <p>Set the default language for the system</p>
+                                </div>
+                                <select class="form-input small" id="defaultLanguage">
+                                    <option value="en">English</option>
+                                    <option value="es">Spanish</option>
+                                    <option value="fr">French</option>
+                                    <option value="de">German</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Time Zone</h4>
+                                    <p>Set the system time zone</p>
+                                </div>
+                                <select class="form-input small" id="timeZone">
+                                    <option value="UTC">UTC</option>
+                                    <option value="EST">Eastern Time</option>
+                                    <option value="PST">Pacific Time</option>
+                                    <option value="GMT">GMT</option>
+                                </select>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn-primary" onclick="saveGeneralSettings()">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- System Settings -->
+                        <div class="settings-panel" id="systemSettings">
+                            <h3>System Settings</h3>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Enable Registration</h4>
+                                    <p>Allow new voters to register</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="enableRegistration" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Email Verification</h4>
+                                    <p>Require email verification for new accounts</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="emailVerification" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Maintenance Mode</h4>
+                                    <p>Put the system under maintenance</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="maintenanceMode">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Debug Mode</h4>
+                                    <p>Enable detailed error messages</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="debugMode">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn-primary" onclick="saveSystemSettings()">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Email Settings -->
+                        <div class="settings-panel" id="emailSettings">
+                            <h3>Email Settings</h3>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>SMTP Server</h4>
+                                    <p>Your email server address</p>
+                                </div>
+                                <input type="text" class="form-input" id="smtpServer" value="smtp.gmail.com">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>SMTP Port</h4>
+                                    <p>Port for email server</p>
+                                </div>
+                                <input type="number" class="form-input small" id="smtpPort" value="587">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>SMTP Username</h4>
+                                    <p>Your email username</p>
+                                </div>
+                                <input type="text" class="form-input" id="smtpUsername" value="noreply@evote.com">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>SMTP Password</h4>
+                                    <p>Your email password</p>
+                                </div>
+                                <input type="password" class="form-input" id="smtpPassword" value="********">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Enable Email Notifications</h4>
+                                    <p>Send email alerts to voters and admins</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn-secondary" onclick="testEmailSettings()">
+                                    <i class="fas fa-paper-plane"></i> Test Connection
+                                </button>
+                                <button class="btn-primary" onclick="saveEmailSettings()">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Security Settings -->
+                        <div class="settings-panel" id="securitySettings">
+                            <h3>Security Settings</h3>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Password Policy</h4>
+                                    <p>Minimum password requirements</p>
+                                </div>
+                                <select class="form-input small" id="passwordPolicy">
+                                    <option value="low">Low (6+ chars)</option>
+                                    <option value="medium" selected>Medium (8+ chars, mixed)</option>
+                                    <option value="high">High (10+ chars, complex)</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Session Lifetime</h4>
+                                    <p>How long a session remains active</p>
+                                </div>
+                                <select class="form-input small" id="sessionLifetime">
+                                    <option value="30">30 minutes</option>
+                                    <option value="60">1 hour</option>
+                                    <option value="120">2 hours</option>
+                                    <option value="480">8 hours</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Max Login Attempts</h4>
+                                    <p>Maximum failed login attempts before lockout</p>
+                                </div>
+                                <input type="number" class="form-input small" id="maxLoginAttempts" value="5" min="3"
+                                    max="10">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Lockout Duration</h4>
+                                    <p>How long to lock out after max attempts</p>
+                                </div>
+                                <select class="form-input small" id="lockoutDuration">
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="60">1 hour</option>
+                                    <option value="1440">24 hours</option>
+                                </select>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn-primary" onclick="saveSecuritySettings()">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Backup Settings -->
+                        <div class="settings-panel" id="backupSettings">
+                            <h3>Backup Settings</h3>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Auto Backup</h4>
+                                    <p>Automatically backup system data</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="autoBackup" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Backup Frequency</h4>
+                                    <p>How often to backup data</p>
+                                </div>
+                                <select class="form-input small" id="backupFrequency">
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly" selected>Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Backup Retention</h4>
+                                    <p>How many backups to keep</p>
+                                </div>
+                                <select class="form-input small" id="backupRetention">
+                                    <option value="7">7 days</option>
+                                    <option value="30">30 days</option>
+                                    <option value="90" selected>90 days</option>
+                                    <option value="365">1 year</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Backup Location</h4>
+                                    <p>Where to store backups</p>
+                                </div>
+                                <select class="form-input small" id="backupLocation">
+                                    <option value="local">Local Storage</option>
+                                    <option value="s3">Amazon S3</option>
+                                    <option value="google">Google Drive</option>
+                                    <option value="dropbox">Dropbox</option>
+                                </select>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn-secondary" onclick="backupNow()">
+                                    <i class="fas fa-database"></i> Backup Now
+                                </button>
+                                <button class="btn-primary" onclick="saveBackupSettings()">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- API Settings -->
+                        <div class="settings-panel" id="apiSettings">
+                            <h3>API Settings</h3>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>API Status</h4>
+                                    <p>Enable or disable the API</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="apiEnabled" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>API Key</h4>
+                                    <p>Your API access key</p>
+                                </div>
+                                <div class="api-key-display">
+                                    <input type="text" class="form-input" id="apiKey" value="evt_live_xxxxxxxxxxxxx"
+                                        readonly>
+                                    <button class="btn-icon" onclick="copyApiKey()">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="btn-icon" onclick="regenerateApiKey()">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Rate Limiting</h4>
+                                    <p>Maximum API requests per minute</p>
+                                </div>
+                                <input type="number" class="form-input small" id="rateLimit" value="60" min="10"
+                                    max="1000">
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Allowed IPs</h4>
+                                    <p>Restrict API access to these IPs (comma separated)</p>
+                                </div>
+                                <input type="text" class="form-input" id="allowedIps" value="*">
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn-primary" onclick="saveApiSettings()">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Election Modal -->
+    <div class="modal" id="electionModal">
+        <div class="modal-backdrop" onclick="closeModal('electionModal')"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="electionModalTitle"><i class="fas fa-calendar-plus"></i> Add New Election</h3>
+                <button class="modal-close" onclick="closeModal('electionModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Election Name</label>
+                    <input type="text" class="form-input" id="electionName" placeholder="e.g., General Election 2026">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="datetime-local" class="form-input" id="electionStartDate">
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="datetime-local" class="form-input" id="electionEndDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Areas (comma separated)</label>
+                    <input type="text" class="form-input" id="electionAreas" placeholder="North, South, East, West">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Number of Seats</label>
+                        <input type="number" class="form-input" id="electionSeats" min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Election Type</label>
+                        <select class="form-input" id="electionType">
+                            <option value="general">General Election</option>
+                            <option value="by-election">By-Election</option>
+                            <option value="referendum">Referendum</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="announceElection">
+                    <label for="announceElection">Announce immediately</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="allowMultipleVotes">
+                    <label for="allowMultipleVotes">Allow multiple votes per voter</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('electionModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveElection()">
+                    <i class="fas fa-save"></i> Save Election
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Candidate Modal -->
+    <div class="modal" id="candidateModal">
+        <div class="modal-backdrop" onclick="closeModal('candidateModal')"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Add New Candidate</h3>
+                <button class="modal-close" onclick="closeModal('candidateModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-input" id="candidateName" placeholder="Enter candidate name">
+                    </div>
+                    <div class="form-group">
+                        <label>Photo URL</label>
+                        <input type="text" class="form-input" id="candidatePhoto"
+                            placeholder="https://example.com/photo.jpg">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-input" id="candidateEmail" placeholder="candidate@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" class="form-input" id="candidatePhone" placeholder="+1 234 567 890">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Political Party</label>
+                        <input type="text" class="form-input" id="candidateParty" placeholder="e.g., Democratic Party">
+                    </div>
+                    <div class="form-group">
+                        <label>Party Symbol</label>
+                        <input type="text" class="form-input" id="candidateSymbol" placeholder="Symbol URL or emoji">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Select Election</label>
+                    <select class="form-input" id="candidateElection">
+                        <option value="">Select Election</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bio / Manifesto</label>
+                    <textarea class="form-input" id="candidateBio" rows="3"
+                        placeholder="Brief description of the candidate"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('candidateModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveCandidate()">
+                    <i class="fas fa-save"></i> Save Candidate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voter Modal -->
+    <div class="modal" id="voterModal">
+        <div class="modal-backdrop" onclick="closeModal('voterModal')"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Add New Voter</h3>
+                <button class="modal-close" onclick="closeModal('voterModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-input" id="voterName" placeholder="Enter voter name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-input" id="voterEmail" placeholder="voter@example.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Voter ID</label>
+                        <input type="text" class="form-input" id="voterId" placeholder="VOTER001">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" class="form-input" id="voterPhone" placeholder="+1 234 567 890">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" class="form-input" id="voterDob">
+                    </div>
+                    <div class="form-group">
+                        <label>Constituency</label>
+                        <input type="text" class="form-input" id="voterConstituency" placeholder="North District">
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="voterCanVote" checked>
+                    <label for="voterCanVote">Allow voting immediately</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="sendVoterEmail">
+                    <label for="sendVoterEmail">Send registration email</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('voterModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveVoter()">
+                    <i class="fas fa-save"></i> Save Voter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Upload Modal -->
+    <div class="modal" id="bulkUploadModal">
+        <div class="modal-backdrop" onclick="closeModal('bulkUploadModal')"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3><i class="fas fa-upload"></i> Bulk Upload Candidates</h3>
+                <button class="modal-close" onclick="closeModal('bulkUploadModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="dropArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag and drop your CSV file here, or <span class="browse-link">browse</span></p>
+                    <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                    <small>Supported format: CSV with headers: name, email, party, election</small>
+                </div>
+                <div class="upload-preview" id="uploadPreview" style="display: none;">
+                    <h4>Preview</h4>
+                    <div class="preview-table"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="downloadSampleCsv()">
+                    <i class="fas fa-download"></i> Sample CSV
+                </button>
+                <button class="btn-secondary" onclick="closeModal('bulkUploadModal')">Cancel</button>
+                <button class="btn-primary" onclick="processBulkUpload()" id="processUploadBtn" disabled>
+                    <i class="fas fa-check"></i> Process Upload
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voter Bulk Upload Modal -->
+    <div class="modal" id="voterBulkUploadModal">
+        <div class="modal-backdrop" onclick="closeModal('voterBulkUploadModal')"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3><i class="fas fa-upload"></i> Bulk Upload Voters</h3>
+                <button class="modal-close" onclick="closeModal('voterBulkUploadModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="voterDropArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag and drop your CSV file here, or <span class="browse-link">browse</span></p>
+                    <input type="file" id="voterFileInput" accept=".csv" style="display: none;">
+                    <small>Supported format: CSV with headers: name, email, voterId, phone, dob, constituency</small>
+                </div>
+                <div class="upload-preview" id="voterUploadPreview" style="display: none;">
+                    <h4>Preview</h4>
+                    <div class="preview-table"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="downloadSampleVoterCsv()">
+                    <i class="fas fa-download"></i> Sample CSV
+                </button>
+                <button class="btn-secondary" onclick="closeModal('voterBulkUploadModal')">Cancel</button>
+                <button class="btn-primary" onclick="processBulkUploadVoters()" id="processVoterUploadBtn" disabled>
+                    <i class="fas fa-check"></i> Process Upload
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Participation Details Modal -->
+    <div class="modal" id="participationModal">
+        <div class="modal-backdrop" onclick="closeModal('participationModal')"></div>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <h3><i class="fas fa-chart-pie"></i> Voter Participation Details</h3>
+                <button class="modal-close" onclick="closeModal('participationModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="participation-details-grid">
+                    <div class="participation-summary-card">
+                        <h4>Overall Statistics</h4>
+                        <div class="summary-stats">
+                            <div class="summary-item">
+                                <span class="summary-label">Total Voters:</span>
+                                <span class="summary-value" id="summaryTotalVoters">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Voters Voted:</span>
+                                <span class="summary-value" id="summaryVoted">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Not Voted:</span>
+                                <span class="summary-value" id="summaryNotVoted">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Participation Rate:</span>
+                                <span class="summary-value" id="summaryRate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="participation-election-card">
+                        <h4>Election-wise Participation</h4>
+                        <div class="election-participation-list" id="electionParticipationList">
+                            <!-- Election participation data will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="participation-chart-container">
+                    <canvas id="participationChart"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="exportParticipationData()">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+                <button class="btn-secondary" onclick="closeModal('participationModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div class="notifications-panel" id="notificationsPanel">
+        <div class="notifications-header">
+            <h3>Notifications</h3>
+            <div class="notifications-actions">
+                <button class="btn-icon" onclick="markAllAsRead()" title="Mark all as read">
+                    <i class="fas fa-check-double"></i>
+                </button>
+                <button class="btn-icon" onclick="clearAllNotifications()" title="Clear all">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        <div class="notifications-list" id="notificationsList">
+            <!-- Notifications will be loaded here -->
+        </div>
+        <div class="notifications-footer">
+            <a href="#" onclick="viewAllNotifications()">View all notifications</a>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <div class="toast-content">
+            <span id="toastMessage"></span>
+        </div>
+        <button class="toast-close" onclick="hideToast()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-backdrop" onclick="closeModal('confirmModal')"></div>
+        <div class="modal-dialog modal-sm">
+            <div class="modal-header">
+                <h3 id="confirmTitle">Confirm Action</h3>
+                <button class="modal-close" onclick="closeModal('confirmModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('confirmModal')">Cancel</button>
+                <button class="btn-danger" id="confirmBtn" onclick="confirmAction()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/admin_storage.js"></script>
+    <script src="js/login_storage.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

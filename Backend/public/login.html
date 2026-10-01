@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - E-Voting System</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="header-icon">
+                <i class="fas fa-vote-yea"></i>
+            </div>
+            <h1 class="app-title">E-Voting System</h1>
+            <p class="app-subtitle">Secure • Transparent • Democratic</p>
+        </div>
+
+        <div class="login-card">
+            <h2 class="card-title">Welcome Back</h2>
+            <p class="card-subtitle">Login to access your account</p>
+
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <!-- Role Selection -->
+                <div class="form-group">
+                    <label for="userRole">
+                        <i class="fas fa-user-tag"></i> Select Role
+                    </label>
+                    <select id="userRole" class="form-input" required>
+                        <option value="">-- Choose Your Role --</option>
+                        <option value="voter">👤 Voter</option>
+                        <option value="candidate">🎯 Candidate</option>
+                        <option value="admin">⚙️ Admin</option>
+                    </select>
+                    <span class="error-message" id="roleError"></span>
+                </div>
+
+                <!-- Email Input -->
+                <div class="form-group">
+                    <label for="userEmail">
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <input type="email" id="userEmail" class="form-input" placeholder="Enter your email" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-group">
+                    <label for="userPassword">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <div class="password-wrapper">
+                        <input type="password" id="userPassword" class="form-input" placeholder="Enter your password"
+                            required>
+                        <span class="toggle-password" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </span>
+                    </div>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Login to Account
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <div class="security-info">
+                    <i class="fas fa-shield-alt"></i> Secured with end-to-end encryption
+                </div>
+                <div class="register-link">
+                    Don't have an account? <a href="Register.html">Register here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Register_storage.js"></script>
+    <script src="login_storage.js"></script>
+    <script src="login.js"></script>
+</body>
+
+</html>

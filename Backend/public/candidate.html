@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Portal - E-Voting System</title>
+    <link rel="stylesheet" href="css/candidate.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Main Dashboard -->
+    <div id="dashboardScreen">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <i class="fas fa-user-tie"></i>
+                <span>Candidate Portal</span>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <button class="nav-btn active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Home</span>
+                </button>
+                <button class="nav-btn" data-page="elections">
+                    <i class="fas fa-vote-yea"></i>
+                    <span>Elections</span>
+                </button>
+                <button class="nav-btn" data-page="applications">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Applications</span>
+                </button>
+                <button class="nav-btn" data-page="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </button>
+                <button class="nav-btn" data-page="results">
+                    <i class="fas fa-poll"></i>
+                    <span>Results</span>
+                </button>
+            </div>
+
+            <div class="nav-right">
+                <button class="notification-btn" onclick="toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationCount">3</span>
+                </button>
+
+                <div class="nav-profile">
+                    <button class="profile-btn" onclick="toggleProfile()">
+                        <div class="avatar" id="avatarInitials">JC</div>
+                        <div class="profile-info">
+                            <span class="profile-name" id="userName">John Candidate</span>
+                            <span class="profile-role">Candidate</span>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-header">
+                            <div class="avatar avatar-lg" id="avatarInitialsLarge">JC</div>
+                            <div>
+                                <h4 id="profileName">John Candidate</h4>
+                                <p id="profileEmail">john@evoting.com</p>
+                                <div id="profileStatus" class="profile-status"></div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-section">
+                            <button class="dropdown-item" onclick="openEditProfileModal()">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Edit Profile</span>
+                            </button>
+                            <button class="dropdown-item" onclick="openChangePasswordModal()">
+                                <i class="fas fa-key"></i>
+                                <span>Change Password</span>
+                            </button>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-section">
+                            <button class="dropdown-item danger" onclick="handleLogout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboardPage">
+                <div class="page-hero">
+                    <div class="hero-content">
+                        <h1>Welcome Back <span id="welcomeName"> John </span>👋</h1>
+                        <p>Lead with Vision. Inspire with Action</p>
+                        <div id="profileWelcomeInfo"
+                            style="margin-top: 0.5rem; font-size: 1.1rem; color: var(--white-600);"></div>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-pill">
+                            <i class="fas fa-fire"></i>
+                            <span id="activeCampaignsCount">2</span> Active
+                        </div>
+                        <div class="stat-pill">
+                            <i class="fas fa-trophy"></i>
+                            <span id="wonElectionsCount">1</span> Won
+                        </div>
+                        <div class="stat-pill" id="profileUpdateStatus" style="display: none;">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>Profile Saved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid Section -->
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="activeElectionsCount">0</h3>
+                            <p>Active Elections</p>
+                        </div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i> <span id="activeTrend">12</span>%
+                        </div>
+                    </div>
+
+                    <div class="stat-card success">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="applicationsCount">0</h3>
+                            <p>Applications</p>
+                        </div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i> <span id="applicationTrend">8</span>%
+                        </div>
+                    </div>
+
+                    <div class="stat-card warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-vote-yea"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalVotesCount">0</h3>
+                            <p>Total Votes</p>
+                        </div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i> <span id="voteTrend">24</span>%
+                        </div>
+                    </div>
+
+                    <div class="stat-card info">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="wonElectionsCountStat">0</h3>
+                            <p>Won Elections</p>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-minus"></i> <span id="wonTrend">0</span>%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-fire"></i> Active Campaigns</h2>
+                            <button class="btn-link" onclick="navigateTo('elections')">View All →</button>
+                        </div>
+                        <div class="card-body">
+                            <div id="activeCampaignsList"></div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-chart-pie"></i> Performance Overview</h2>
+                        </div>
+                        <div class="card-body">
+                            <div id="performanceOverview"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-history"></i> Recent Activities</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-timeline" id="activityTimeline"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elections Page -->
+            <div class="page" id="electionsPage">
+                <div class="page-header">
+                    <h1><i class="fas fa-vote-yea"></i> Available Elections</h1>
+                    <div class="page-actions">
+                        <select class="filter-select" id="electionStatusFilter">
+                            <option value="all">All Status</option>
+                            <option value="Open">Open</option>
+                            <option value="Upcoming">Upcoming</option>
+                            <option value="Closed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="electionsGrid" class="elections-grid"></div>
+            </div>
+
+            <!-- Applications Page -->
+            <div class="page" id="applicationsPage">
+                <div class="page-header">
+                    <h1><i class="fas fa-file-contract"></i> My Applications</h1>
+                </div>
+                <div id="applicationsList" class="applications-list"></div>
+            </div>
+
+            <!-- Analytics Page -->
+            <div class="page" id="analyticsPage">
+                <div class="page-header">
+                    <h1><i class="fas fa-chart-bar"></i> Vote Analytics</h1>
+                </div>
+                <div class="analytics-container">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-chart-line"></i> Vote Trends</h2>
+                        </div>
+                        <div class="card-body">
+                            <div id="voteTrends"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Page -->
+            <div class="page" id="resultsPage">
+                <div class="page-header">
+                    <h1><i class="fas fa-poll"></i> Election Results</h1>
+                </div>
+                <div id="resultsGrid" class="results-grid"></div>
+            </div>
+        </main>
+
+        <!-- Edit Profile Modal -->
+        <div class="modal" id="editProfileModal">
+            <div class="modal-backdrop" onclick="closeEditProfileModal()"></div>
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h3><i class="fas fa-user-edit"></i> Edit Profile</h3>
+                    <button class="modal-close" onclick="closeEditProfileModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-section">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="editName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="editEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-input" id="editPhone" placeholder="Enter your phone number">
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">Political Party</label>
+                        <input type="text" class="form-input" id="editParty" placeholder="Enter your party affiliation">
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">Bio</label>
+                        <textarea class="form-textarea" id="editBio" rows="4"
+                            placeholder="Tell voters about yourself..."></textarea>
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">Profile Image URL (Optional)</label>
+                        <input type="text" class="form-input" id="editImage" placeholder="Enter image URL">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="closeEditProfileModal()">Cancel</button>
+                    <button class="btn-primary" onclick="saveProfile()">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div class="modal" id="changePasswordModal">
+            <div class="modal-backdrop" onclick="closeChangePasswordModal()"></div>
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h3><i class="fas fa-key"></i> Change Password</h3>
+                    <button class="modal-close" onclick="closeChangePasswordModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-section">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" class="form-input" id="currentPassword"
+                            placeholder="Enter your current password">
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">New Password</label>
+                        <input type="password" class="form-input" id="newPassword" placeholder="Enter new password">
+                        <div class="password-strength-container" id="passwordStrengthContainer" style="display: none;">
+                            <div class="password-strength-label">Password Strength:</div>
+                            <div class="password-strength-bar">
+                                <div class="strength-segment" data-strength="1"></div>
+                                <div class="strength-segment" data-strength="2"></div>
+                                <div class="strength-segment" data-strength="3"></div>
+                                <div class="strength-segment" data-strength="4"></div>
+                            </div>
+                            <div class="password-strength-text" id="passwordStrengthText">Very Weak</div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-input" id="confirmPassword"
+                            placeholder="Confirm new password">
+                        <div class="password-match" id="passwordMatch" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Passwords match</span>
+                        </div>
+                        <div class="password-mismatch" id="passwordMismatch" style="display: none;">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Passwords do not match</span>
+                        </div>
+                    </div>
+                    <div class="warning-alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>After changing password, you will need to login again.</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="closeChangePasswordModal()">Cancel</button>
+                    <button class="btn-primary" id="savePasswordBtn" disabled>
+                        <i class="fas fa-key"></i> Change Password
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Modal -->
+        <div class="modal" id="applicationModal">
+            <div class="modal-backdrop" onclick="closeApplicationModal()"></div>
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h3><i class="fas fa-file-contract"></i> Apply for Election</h3>
+                    <button class="modal-close" onclick="closeApplicationModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="application-info" id="applicationInfo"></div>
+                    <div class="form-section">
+                        <label class="form-label">Why do you want to participate? *</label>
+                        <textarea class="form-textarea" id="applicationReason" rows="4"
+                            placeholder="Share your motivation..."></textarea>
+                    </div>
+                    <div class="form-section">
+                        <label class="form-label">Campaign Manifesto (Optional)</label>
+                        <textarea class="form-textarea" id="applicationManifesto" rows="3"
+                            placeholder="Briefly describe your campaign promises..."></textarea>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="termsCheckbox">
+                        <label for="termsCheckbox">I agree to the election rules and guidelines</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="closeApplicationModal()">Cancel</button>
+                    <button class="btn-primary" onclick="submitApplication()">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+    <div class="modal" id="confirmModal">
+        <div class="modal-backdrop" onclick="closeModal('confirmModal')"></div>
+        <div class="modal-dialog modal-sm">
+            <div class="modal-header">
+                <h3 id="confirmTitle"><i class="fas fa-sign-out-alt"></i> Logout</h3>
+                <button class="modal-close" onclick="closeModal('confirmModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('confirmModal')">Cancel</button>
+                <button class="btn-danger" id="confirmBtn" onclick="confirmLogout()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/candidate_storage.js"></script>
+    <script src="js/candidate.js"></script>
+</body>
+
+</html>
